@@ -11,8 +11,9 @@ public class SortingAlgorithm extends Algorithm {
 	 */
 	@Override
 	public Population evolvePopulation(Population pop) {
-		Population newPopulation = new DefaultPopulation(pop.size(), false);
-
+		SortingIndividual baseIndiv = (SortingIndividual) pop.individuals[0];
+		Population newPopulation = new SortingPopulation(pop.size(), baseIndiv.getBase(), false);
+	
 		// Keep our best individual
 		if (elitism) {
 			newPopulation.saveIndividual(0, pop.getFittest());
@@ -44,14 +45,14 @@ public class SortingAlgorithm extends Algorithm {
 
 	@Override
 	protected Individual crossover(Individual indiv1, Individual indiv2) {
-		Individual newSol = new DefaultIndividual();
+		Individual newSol = null;
 		// Loop through genes
 		for (int i = 0; i < indiv1.size(); i++) {
 			// Crossover
 			if (Math.random() <= uniformRate) {
-				newSol.setGene(i, indiv1.getGene(i));
+				newSol = new SortingIndividual(indiv1.genes);
 			} else {
-				newSol.setGene(i, indiv2.getGene(i));
+				newSol = new SortingIndividual(indiv2.genes);
 			}
 		}
 		return newSol;
@@ -64,8 +65,7 @@ public class SortingAlgorithm extends Algorithm {
 		for (int i = 0; i < indiv.size(); i++) {
 			if (Math.random() <= mutationRate) {
 				// Create random gene
-				byte gene = (byte) Math.round(Math.random());
-				indiv.setGene(i, gene);
+				indiv.generateIndividual();
 			}
 		}
 	}
@@ -74,7 +74,8 @@ public class SortingAlgorithm extends Algorithm {
 	// Select individuals for crossover
 	protected Individual tournamentSelection(Population pop) {
 		// Create a tournament population
-		Population tournament = new DefaultPopulation(tournamentSize, false);
+		SortingIndividual baseIndiv = (SortingIndividual) pop.individuals[0];
+		Population tournament = new SortingPopulation(tournamentSize, baseIndiv.getBase(), false);
 		// For each place in the tournament get a random individual
 		for (int i = 0; i < tournamentSize; i++) {
 			int randomId = (int) (Math.random() * pop.size());

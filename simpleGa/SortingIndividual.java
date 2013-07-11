@@ -1,5 +1,7 @@
 package simpleGa;
 
+import java.util.Random;
+
 public class SortingIndividual extends Individual{
 	
 	private Object[] base;
@@ -12,13 +14,20 @@ public class SortingIndividual extends Individual{
 	
 	@Override
 	public void generateIndividual() {
-			swappedBaseIndex1 = (int) (Math.random() % base.length);
-			swappedBaseIndex2 = (int) (Math.random() % base.length);
-			genes = swap(base, swappedBaseIndex1, swappedBaseIndex2);
+		Random random = new Random();
+			swappedBaseIndex1 = random.nextInt(base.length) ;
+			swappedBaseIndex2 = random.nextInt(base.length) ;
+			Object[] a = new Object[base.length];
+			System.arraycopy(base, 0, a, 0, base.length);
+			genes = swap(a, swappedBaseIndex1, swappedBaseIndex2);
 	}
 
 	public void setBaseArray(Object[] array){
 		this.base = array;
+	}
+	
+	public Object[] getBase(){
+		return this.base;
 	}
 	
 	public Object[] swap(Object[] array, int index1, int index2){

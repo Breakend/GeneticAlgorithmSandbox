@@ -46,7 +46,7 @@ public abstract class Individual {
     public String toString() {
         String geneString = "";
         for (int i = 0; i < size(); i++) {
-            geneString += getGene(i);
+            geneString += getGene(i) + ", ";
         }
         return geneString;
     }
