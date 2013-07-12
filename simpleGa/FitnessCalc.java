@@ -25,12 +25,20 @@ public abstract class FitnessCalc {
 
     // Calculate individual's fitness by comparing it to our candidate solution
     static int getFitness(Individual individual) {
+    	if(individual.getGene(0) == null) return -1;
         int fitness = 0;
         // Loop through our individuals genes and compare them to our candidates
+        try{
         for (int i = 0; i < individual.size() && i < solution.length; i++) {
             if (individual.getGene(i).equals(solution[i])) {
                 fitness++;
             }
+        }
+        }
+        catch(Exception e){
+        	System.out.println(e);
+        	System.out.println("Individual at exception");
+        	System.out.println(individual);
         }
         return fitness;
     }
