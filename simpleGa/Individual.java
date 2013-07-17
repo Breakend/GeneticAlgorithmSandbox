@@ -1,5 +1,7 @@
 package simpleGa;
 
+import java.util.LinkedList;
+
 public abstract class Individual {
 
     static int defaultGeneLength = 64;
